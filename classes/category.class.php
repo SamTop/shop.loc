@@ -23,12 +23,45 @@ class Category
 		}
 		return false;
 	}
-	public function updateCategory($id, $name, $parent_id) {
+
+	public function updateCategory($id, $name, $parent_name) {
+		if ($this->validate($name) && 
+			$this->checkName($name, $parent_name)) {
+			if($name != $parent_name) {
+				$pdo = $GLOBALS['pdo'];
+				$stmt = $pdo->prepare("UPDATE categories SET name = ?, parent_id = ? WHERE id = ?");
+				$pid = $this->getID($parent_name);
+				$stmt->execute([$name, $pid, $id]);
+				echo "Successfully Updated";
+				return true;
+			} else {
+				echo "Type a category other than this";
+				return false;
+			}
+		} else {
+			return false;
+		}
+	}
+
+	public function deleteCategory($id) {
+		$pdo = $GLOBALS['pdo'];
+		$stmt = $pdo->prepare("SELECT parent_id FROM categories WHERE id = ?");
+		$stmt->execute([$id]);
+		$par_id = $stmt->fetch()[0];
+		$stmt = $pdo->prepare("DELETE FROM categories WHERE id = ?");
+		$stmt->execute([$id]);
+		$stmt = $pdo->prepare("UPDATE categories SET parent_id = ? WHERE parent_id = ? ");
+		$stmt->execute([$par_id, $id]);
+		/*$stmt = $pdo->prepare("SELECT * FROM categories");
+		$stmt->execute([]);
+		while($a = $stmt->fetch()){
+			$stmt = $pdo->prepare("SELECT * FROM categories WHERE parent_id = ?");
+			$stmt->execute([])
+
+		}*/
 
 	}
-	public function deleteCategory() {
 
-	}
 	public function validate($name) {
 		if (trim($name) == '') {
 			echo "Enter valid name";
@@ -36,6 +69,7 @@ class Category
 		}
 		return true;
 	}
+
 	public function checkName($name, $parent_name) {
 		
 		$pdo = $GLOBALS['pdo'];
@@ -58,10 +92,11 @@ class Category
 		}
 		return true;
 	}
-	public function getId($parent_name) {
+
+	public function getId($name) {
 		$pdo = $GLOBALS['pdo'];
 		$stmt = $pdo->prepare("SELECT * FROM categories WHERE name = ?");
-		$stmt->execute([$parent_name]);
+		$stmt->execute([$name]);
 		if($parent = $stmt->fetch()){
 			$id = $parent['id'];
 			return $id;	
@@ -69,6 +104,7 @@ class Category
 			return false;
 		}
 	}
+
 	public function getParentId($parent_name) {
 		$pdo = $GLOBALS['pdo'];
 		$stmt = $pdo->prepare("SELECT * FROM categories WHERE name = ?");
@@ -81,9 +117,7 @@ class Category
 			return false;
 		}
 	}
-	public function showAll() {
 
-	}
 	public function getString($cat) {
 		$pdo = $GLOBALS['pdo'];
 		$fullName = $cat['name'];
