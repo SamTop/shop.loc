@@ -1,4 +1,5 @@
 <?php require_once('../includes/db.php'); ?>
+<?php require_once('../classes/category.class.php'); ?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -16,7 +17,24 @@
 		</ul>
 	</div>
 	<div class="main">
-		<a class="add" href="addmanufacturer.php">Add</div>
+		<a class="add" href="addcategory.php">Add</a><br><br>
+		<table>
+			<tr>
+				<th>Name</th>
+			</tr>
+		<?php
+			
+
+			$c = new Category;
+			$stmt = $pdo->prepare("SELECT * FROM categories");
+			$stmt->execute([]);
+			while($m = $stmt->fetch()){
+				echo "<tr>";
+				echo "<td>".$c->getString($m)."</td>";
+				echo "</tr>";
+			}
+		?>
+		</table>
 	</div>
 </body>
 </html>

@@ -10,7 +10,7 @@
 </head>
 <body>
 	<?php
-	if(!isset($_GET['submit'])){
+	if(!isset($_GET['submit'])) {
 		$_SESSION['id'] = $_GET['id'];
 		$id = $_SESSION['id'];
 	}

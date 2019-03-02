@@ -11,7 +11,9 @@ class Manufacturer
 		if ($this->validate($name, $address, $phone) && $this->checkName($name)) {
 			$stmt = $pdo->prepare("INSERT INTO manufacturers (name, address, phone) VALUES (?, ?, ?)");
 			$stmt->execute([$name, $address, $phone]);
+			return true;
 		}
+		return false;
 	}
 	public function updateManufacturer($id, $name, $address, $phone) {
 		if($this->validate($name, $address, $phone)) {

@@ -12,12 +12,15 @@
 </head>
 <body>
 	<?php
-		if (isset($_GET['submit'])) {
+		if (isset($_GET['submit']))
+		{
 			$m = new Manufacturer;
-			$m->createManufacturer($_GET['name'], $_GET['address'], $_GET['phone']);
-			$_GET['name'] = '';
-			$_GET['address'] = '';
-			$_GET['phone'] = '';
+			if($m->createManufacturer($_GET['name'], $_GET['address'], $_GET['phone']))
+			{
+				$_GET['name'] = '';
+				$_GET['address'] = '';
+				$_GET['phone'] = '';
+			}
 		}
 	?>
 	<form action="addmanufacturer.php" method="GET">
