@@ -16,7 +16,7 @@
 		</ul>
 	</div>
 	<div class="main">
-		<a class="add" href="">Add</a>
+		<a class="add" href="addproduct.php">Add</a>
 	</div>
 </body>
 </html>

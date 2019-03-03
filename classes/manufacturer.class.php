@@ -11,6 +11,7 @@ class Manufacturer
 		if ($this->validate($name, $address, $phone) && $this->checkName($name)) {
 			$stmt = $pdo->prepare("INSERT INTO manufacturers (name, address, phone) VALUES (?, ?, ?)");
 			$stmt->execute([$name, $address, $phone]);
+			echo "Success";
 			return true;
 		}
 		return false;
@@ -53,7 +54,15 @@ class Manufacturer
 		}
 		return true;
 	}
-	public function getId() {
-
+	public function getId($name) {
+		$pdo = $GLOBALS['pdo'];
+		$stmt = $pdo->prepare("SELECT * FROM manufacturers WHERE name = ?");
+		$stmt->execute([$name]);
+		if($man = $stmt->fetch()) {
+			$id = $man['id'];
+			return $id;
+		} else {
+			return false;
+		}
 	}
 }

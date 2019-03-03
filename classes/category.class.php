@@ -83,8 +83,8 @@ class Category
 			echo "No such parent";
 			return false;
 		}
-		$stmt = $pdo->prepare("SELECT * FROM categories WHERE name = ? AND parent_id = ?");
-		$stmt->execute([$name, $id]);
+		$stmt = $pdo->prepare("SELECT * FROM categories WHERE name = ?");
+		$stmt->execute([$name]);
 		$a = $stmt->fetch();
 		if ($a) {
 			echo "This category is already registered";

@@ -10,7 +10,7 @@ require_once('../classes/admin.class.php');
 </head>
 <body>
 	<?php
-		if ( isset( $_GET['submit'] ) )
+		/*if ( isset( $_GET['submit'] ) )
 		{
 			$admin = new Admin($_GET['p_name'], $_GET['p_quantity'], $_GET['p_country'], $_GET['p_price'], $_GET['p_category']);
 			if ($admin->validate())
@@ -20,7 +20,7 @@ require_once('../classes/admin.class.php');
 					$admin->add_cat();
 					$admin->add_prod();
 				}
-			}
+			}*/
 			/*if ( mysql_fetch_array(mysql_query("SELECT * FROM products WHERE name = '".$_GET['p_name']."'") ) ) {
 				$errors[] = 'The product is already in the list';
 			}
@@ -52,14 +52,13 @@ require_once('../classes/admin.class.php');
 			} else {
 				echo array_shift($errors);
 			}*/
+		/*}*/
+		if (isset($_POST['submit'])) {
+			var_dump($_FILES['file']['name']);
 		}
 	?>
-	<form action="admin1.php" method="GET">
-		Name: <input type="text" name="p_name" value="<?php echo $_GET['p_name'] ?>"><br>
-		Quantity: <input type="number" name="p_quantity" value="<?php echo $_GET['p_quantity'] ?>"><br>
-		Origin Country: <input type="text" name="p_country" value="<?php echo $_GET['p_country'] ?>"><br>
-		Price: <input type="number" name="p_price" value="<?php echo $_GET['p_price'] ?>"><br>
-		Category: <input type="text" name="p_category" value="<?php echo $_GET['p_category'] ?>"><br>
+	<form action="admin1.php" method="POST" enctype='multipart/form-data'>
+		<input type="file" name="file"><br>
 		<input type="submit" name="submit" value="submit!"><br>
 	</form>
 </body>
