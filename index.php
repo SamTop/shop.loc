@@ -43,7 +43,7 @@
 					<th>Manufacturer</th>
 					<th>Category</th>
 				</tr>
-		<?php
+			<?php
 				$stmt = $pdo->prepare("SELECT * FROM products");
 				$stmt->execute([]);
 				// Getting products into $p array
@@ -62,6 +62,7 @@
 
 						$p[$i]['cat'][] = $cc->getString($st->fetch());
 					}
+
 					$ct = $pdo->prepare("SELECT * FROM images WHERE prod_id = ?");
 					$ct->execute([$p[$i]['id']]);
 
