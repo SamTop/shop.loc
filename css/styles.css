@@ -44,3 +44,6 @@ td, th {
 tr:nth-child(even) {
   background-color: #dddddd;
 }
+img {
+	width: 50px;
+}

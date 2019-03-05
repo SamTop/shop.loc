@@ -1,6 +1,7 @@
 <?php 
 	require_once('../includes/db.php');
 	require_once('../classes/register.class.php');  
+	require_once('../classes/login.class.php');
 ?>
 
 <!DOCTYPE html>
@@ -41,22 +42,27 @@
 		if (isset($_POST['submit'])) 
 		{
 			// New Register object
-			$user = new Register($_POST['name'], $_POST['password'], $_POST['email']);
-			// Are all fields filled?
-			if ($user->validate()) 
-			{
-				// Are username and email unique?
-				if ($user->check_uniqueness()) 
+			$user = new Register;
+			if($user->createUser($_POST['name'], $_POST['password'], $_POST['email'])) {
+				$login = new Login($_POST['name'], $_POST['password']);
+				if ($login->validate())
 				{
-					// Show error message
-					echo "The username or email has already been used!";
-				}
-				else
-				{
-					// Regiter a new user
-					$user->register();
+					if ($login->find_user())
+					{
+						if($login->check_pass())
+						{
+							$_SESSION['user'] = $login->user;
+							echo "Registered";
+							echo '<a href="/">Main Page</a>';
+						}
+						else
+						{
+							echo "Wrong password";
+						}
+					}
 				}
 			}
+			
 		}
 	?>
 	<form action="register.php" method="post">
