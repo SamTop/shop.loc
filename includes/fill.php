@@ -3,7 +3,7 @@
 	require_once('../classes/product.class.php');
 	require_once('../classes/category.class.php');
 	require_once('../classes/order.class.php');
-	if (!isset($_SESSION['user'])) {
+	if (!isset($_SESSION['user']) || !isset($_GET['quantity'])) {
 		header("Location: /");
 	}
 	/*var_dump($_GET);*/

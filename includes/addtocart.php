@@ -2,7 +2,6 @@
 	require_once('/db.php');
 	require_once('../classes/product.class.php');
 	require_once('../classes/category.class.php');
-	
 ?>
 
 <!DOCTYPE html>
@@ -72,7 +71,7 @@
 					
 					echo "</td>";
 					echo "<td>".$p[$i]['name']."</td>";
-					echo '<td><input type="number" name="quantity['.$p[$i]['id'].']" value="1"></td>';
+					echo '<td><input type="number" name="quantity['.$p[$i]['id'].']" value="1" min="1"></td>';
 					echo "<td>".$p[$i]['in_stock']."</td>";
 					echo "<td>".$p[$i]['price']."</td>";
 					echo "<td>".$p[$i]['man']."</td>";

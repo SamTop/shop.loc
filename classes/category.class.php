@@ -140,4 +140,20 @@ class Category
 		}
 		return $fullName;
 	}
+
+	public function getProductIds($ids) {
+		$id = implode(",", $ids);
+		$pdo = $GLOBALS['pdo'];
+		$stmt = $pdo->prepare("SELECT * FROM product_categories WHERE cat_id IN (?)");
+		$stmt->execute([$id]);
+		
+		while ($x = $stmt->fetch()) {
+			$prod_ids[] = $x['prod_id'];
+		}
+
+		if(empty($prod_ids)) { 
+			return false;
+		}
+		return $prod_ids;
+	}
 }

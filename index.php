@@ -3,6 +3,22 @@
 	require_once('classes/product.class.php');
 	require_once('classes/category.class.php');
 
+	/*if (isset($_POST['submit']) && isset($_POST['check'])) {
+		if (isset($_SESSION['user'])) {
+
+			foreach ($_GET['check'] as $key) {
+				$str .= 'id[]='.$key.'&';
+				//if (isset($_POST['check'])) {
+				//	$_SESSION['id'][] = $key;	
+				//}
+				
+			}
+			
+			header('Location: /includes/addtocart.php');
+		} else {
+			echo "Log in to make purchases<br>";
+		}
+	}*/
 	if (isset($_GET['submit']) && isset($_GET['check'])) {
 		if (isset($_SESSION['user'])) {
 
@@ -33,6 +49,22 @@
 	<a href="includes/register.php">Register</a>
 	<?php } ?>
 	<form action="index.php" method="GET">
+		<select name="category[]" multiple>
+			<?php 
+				$c = new Category;
+				$stmt = $pdo->prepare("SELECT * FROM categories");
+				$stmt->execute([]);
+				while ($cat = $stmt->fetch()) {
+					echo "<option value='".$cat['id']."'>";
+					echo $c->getString($cat);
+					echo "</option>";
+				}
+			?>
+		</select> : Choose category<br><br>
+		<input type="submit" name="cat" value="Search by categories"><br><br>
+		<?php 
+			if (isset($_GET['category'])) {
+		?>
 		<table>
 				<tr>
 					<th></th>
@@ -43,6 +75,90 @@
 					<th>Manufacturer</th>
 					<th>Category</th>
 				</tr>
+			<?php
+				$cat = new Category;
+				if ($prod_ids = $cat->getProductIds($_GET['category'])) {
+				
+				$prod_ids = '('.implode(",", $prod_ids).')';
+
+				$stmt = $pdo->query("SELECT * FROM products WHERE id IN ".$prod_ids);
+
+				// Getting products into $p array
+				while($tmp = $stmt->fetch()) {
+
+					$p[] = $tmp;
+				}
+
+				$cc = new Category;
+				// Getting category, manufacturer name, images into $p array
+				for ($i=0; $i < count($p); $i++) {
+					$stmt = $pdo->prepare("SELECT * FROM product_categories WHERE prod_id = ?");
+					$stmt->execute([$p[$i]['id']]);
+
+					while($a = $stmt->fetch()) {
+						$st = $pdo->prepare("SELECT * FROM categories WHERE id = ?");
+						$st->execute([$a['cat_id']]);
+
+						$p[$i]['cat'][] = $cc->getString($st->fetch());
+					}
+
+					$ct = $pdo->prepare("SELECT * FROM images WHERE prod_id = ?");
+					$ct->execute([$p[$i]['id']]);
+
+					while($img = $ct->fetch()) {
+						$p[$i]['img'][] = $img['dest'];
+					}
+					
+
+					$stm = $pdo->prepare("SELECT * FROM manufacturers WHERE id = ?");
+					$stm->execute([$p[$i]['manufacturer_id']]);
+					$m = $stm->fetch();
+					$p[$i]['man'] = $m['name'];
+				}
+
+				// Displaying tables
+				for ($i=0; $i < count($p) && $i < 20; $i++) { 
+					echo "<tr>";
+					echo "<td><input type='checkbox' value='".$p[$i]['id']."' name='check[]'>";
+					echo "<td>";
+
+					foreach ($p[$i]['img'] as $imgg) {
+						echo "<img src='..".substr($imgg, 19)."'>";
+					}
+					
+					echo "</td>";
+					echo "<td>".$p[$i]['name']."</td>";
+					echo "<td>".$p[$i]['in_stock']."</td>";
+					echo "<td>".$p[$i]['price']."</td>";
+					echo "<td>".$p[$i]['man']."</td>";
+					echo "<td>";
+
+					foreach ($p[$i]['cat'] as $key) {
+						echo $key.', ';
+					}
+
+					echo "</td>";
+					echo "</tr>";
+				}
+			} else {
+				echo "No product with such category(-ies)";
+			}
+			
+			?>
+		</table>
+		<?php
+	} else {
+		?>
+		<table>
+			<tr>
+				<th></th>
+				<th>Image</th>
+				<th>Name</th>
+				<th>In Stock</th>
+				<th>Price</th>
+				<th>Manufacturer</th>
+				<th>Category</th>
+			</tr>
 			<?php
 				$stmt = $pdo->prepare("SELECT * FROM products");
 				$stmt->execute([]);
@@ -104,6 +220,9 @@
 			
 			?>
 		</table>
+		<?php
+			}
+		?>
 		<br>
 		<input type="submit" name="submit" value="Add to cart">
 	</form>

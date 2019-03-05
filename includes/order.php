@@ -6,10 +6,9 @@
 		header("Location: /");
 	}
 
-
 	$ord = new Order;
 	
-	if($ord->createOrder($_SESSION['user']['id'], $_GET['address'])) {
+	if($ord->checkQuantity($_SESSION['quantity'])  && $ord->createOrder($_SESSION['user']['id'], $_GET['address'])) {
 		$id = $pdo->lastInsertId();
 		
 		foreach ($_SESSION['quantity'] as $prod_id => $quant) {
@@ -17,5 +16,4 @@
 		}
 		header("Location: /");
 	}
-
 ?>

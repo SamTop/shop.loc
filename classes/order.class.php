@@ -15,6 +15,28 @@ class Order {
 		$pdo = $GLOBALS['pdo'];
 		$stmt = $pdo->prepare("INSERT INTO order_products (order_id, prod_id, quantity) VALUES (?, ?, ?)");
 		$stmt->execute([$ord_id, $prod_id, $quant]);
+
+		$stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
+		$stmt->execute([$prod_id]);
+		$q = $stmt->fetch()['in_stock'];
+		$x = $q - $quant;
+		$stmt = $pdo->prepare("UPDATE products SET in_stock = ? WHERE id = ?");
+		$stmt->execute([$x, $prod_id]);
+	}
+
+	public function checkQuantity($quant) {
+		$pdo = $GLOBALS['pdo'];
+		foreach($quant as $prod => $quantity){
+			$stmt = $pdo->prepare("SELECT * FROM products WHERE id = ?");
+			$stmt->execute([$prod]);
+			$p = $stmt->fetch();
+
+			if ($quantity > $p['in_stock']) {
+				echo "We do not have products of such quantity";
+				return false;
+			}
+		}
+		return true;
 	}
 
 	public function getOrders(){
