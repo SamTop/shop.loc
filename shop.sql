@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1:3306
--- Generation Time: Mar 05, 2019 at 02:06 PM
+-- Generation Time: Mar 06, 2019 at 11:52 AM
 -- Server version: 5.6.41
 -- PHP Version: 5.5.38
 
@@ -67,12 +67,17 @@ CREATE TABLE `images` (
 --
 
 INSERT INTO `images` (`id`, `prod_id`, `dest`) VALUES
-(171, 24, 'W:/domains/shop.loc/uploads/5c7cfce0357cc1.14636529.jpg'),
 (175, 26, 'W:/domains/shop.loc/uploads/5c7cfd99b35e65.96559830.jpg'),
 (176, 26, 'W:/domains/shop.loc/uploads/5c7cfd99b419f2.96923977.jpg'),
 (177, 26, 'W:/domains/shop.loc/uploads/5c7cfd99b513f9.55995143.jpg'),
 (178, 27, 'W:/domains/shop.loc/uploads/5c7e4c07007390.23718890.jpg'),
-(179, 27, 'W:/domains/shop.loc/uploads/5c7e4c0700f090.29371951.jpg');
+(179, 27, 'W:/domains/shop.loc/uploads/5c7e4c0700f090.29371951.jpg'),
+(180, 28, 'W:/domains/shop.loc/uploads/5c7e6dc070f3f1.37064913.jpg'),
+(181, 24, 'W:/domains/shop.loc/uploads/5c7e7a4b3b6658.52395812.jpg'),
+(182, 29, 'W:/domains/shop.loc/uploads/5c7f8850b062f5.93506297.jpg'),
+(183, 29, 'W:/domains/shop.loc/uploads/5c7f8850b11e70.71747454.jpg'),
+(184, 29, 'W:/domains/shop.loc/uploads/5c7f8850b1d9f0.62998731.jpg'),
+(185, 29, 'W:/domains/shop.loc/uploads/5c7f8850b50688.35375096.jpg');
 
 -- --------------------------------------------------------
 
@@ -114,10 +119,7 @@ CREATE TABLE `orders` (
 --
 
 INSERT INTO `orders` (`id`, `time`, `user_id`, `address`) VALUES
-(13, '2019-03-05 10:09:59', 1, 'sdf'),
-(14, '2019-03-05 10:10:08', 1, 'asdfd'),
-(15, '2019-03-05 10:11:14', 7, 'a'),
-(16, '2019-03-05 10:27:46', 7, 'hr qochar');
+(38, '2019-03-05 13:54:14', 7, 'vbg');
 
 -- --------------------------------------------------------
 
@@ -143,7 +145,36 @@ INSERT INTO `order_products` (`id`, `order_id`, `prod_id`, `quantity`) VALUES
 (14, 15, 24, 1),
 (15, 15, 26, 1),
 (16, 0, 24, 1),
-(17, 16, 24, 6);
+(17, 16, 24, 6),
+(18, 17, 24, 4),
+(19, 17, 26, 1),
+(20, 18, 24, 1),
+(21, 18, 26, 1),
+(22, 19, 24, 1),
+(23, 19, 26, 1),
+(24, 27, 26, 1),
+(25, 28, 26, 1),
+(26, 29, 26, 1),
+(27, 30, 26, 1),
+(28, 31, 26, 1),
+(29, 32, 24, 1),
+(30, 33, 24, 1),
+(31, 33, 24, 2),
+(32, 33, 24, 2),
+(33, 33, 24, 2),
+(34, 33, 24, 2),
+(35, 33, 24, 2),
+(36, 33, 24, 2),
+(37, 33, 24, 2),
+(38, 33, 24, 2),
+(39, 33, 24, 2),
+(40, 33, 24, 2),
+(41, 33, 24, 2),
+(42, 34, 24, 1),
+(43, 35, 24, 1),
+(44, 36, 24, 10),
+(45, 37, 24, -1),
+(46, 38, 24, 1);
 
 -- --------------------------------------------------------
 
@@ -164,9 +195,11 @@ CREATE TABLE `products` (
 --
 
 INSERT INTO `products` (`id`, `name`, `in_stock`, `price`, `manufacturer_id`) VALUES
-(24, '3', 3, 3, 9),
+(24, 'a', 0, 34, 9),
 (26, '5', 4, 4, 9),
-(27, 'asdf', 4, 3, 9);
+(27, 'asdf', 4, 3, 9),
+(28, 'bmw', 9, 123, 9),
+(29, 'mersedez', 10, 15000, 11);
 
 -- --------------------------------------------------------
 
@@ -191,7 +224,11 @@ INSERT INTO `product_categories` (`id`, `prod_id`, `cat_id`) VALUES
 (38, 26, 37),
 (39, 26, 40),
 (40, 27, 37),
-(41, 27, 40);
+(41, 27, 40),
+(42, 28, 36),
+(43, 29, 36),
+(44, 29, 37),
+(45, 29, 40);
 
 -- --------------------------------------------------------
 
@@ -285,7 +322,7 @@ ALTER TABLE `categories`
 -- AUTO_INCREMENT for table `images`
 --
 ALTER TABLE `images`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=180;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=186;
 
 --
 -- AUTO_INCREMENT for table `manufacturers`
@@ -297,25 +334,25 @@ ALTER TABLE `manufacturers`
 -- AUTO_INCREMENT for table `orders`
 --
 ALTER TABLE `orders`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=39;
 
 --
 -- AUTO_INCREMENT for table `order_products`
 --
 ALTER TABLE `order_products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=47;
 
 --
 -- AUTO_INCREMENT for table `products`
 --
 ALTER TABLE `products`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=28;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=30;
 
 --
 -- AUTO_INCREMENT for table `product_categories`
 --
 ALTER TABLE `product_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=42;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
 
 --
 -- AUTO_INCREMENT for table `users`

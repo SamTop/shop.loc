@@ -6,6 +6,7 @@
 	if (!isset($_SESSION['user']) || !isset($_GET['quantity'])) {
 		header("Location: /");
 	}
+	
 	/*var_dump($_GET);*/
 	$pdo = $GLOBALS['pdo'];
 	foreach ($_GET['quantity'] as $key => $val) {
